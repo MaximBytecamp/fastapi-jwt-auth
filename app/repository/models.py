@@ -27,3 +27,13 @@ class UserInDB(User):
     """
     pass
 
+class UserResponse(BaseModel):
+    """
+    Модель пользователя для ответа API.
+    Не содержит конфиденциальных данных (пароль).
+    """
+
+    username: str
+    email: EmailStr
+    full_name: Optional[str] = None 
+    disabled: bool = False
