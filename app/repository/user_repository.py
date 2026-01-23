@@ -2,6 +2,7 @@ from typing import Optional
 from app.repository.models import UserInDB
 from app.security.auth import get_password_hash
 
+
 class UserRepository:
     """
     Repository для работы с пользователями.
