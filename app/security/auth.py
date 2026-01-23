@@ -139,27 +139,26 @@ def get_current_user_username(credentials: HTTPAuthorizationCredentials = Depend
         HTTPException 401: Если токен отсутствует, невалиден или истек
     """
 
-    token = credentials.credentials 
+    token = credentials.credentials
     try:
-        payloud = decode_access_token(token)
-        username: str = payloud.get("sub")
-
-        if username is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Could not validate credentials",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-        
-        return username
-    
+        payload = decode_access_token(token)
     except HTTPException:
-        pass 
-
+        # propagate HTTPExceptions raised during decoding (expired/invalid token)
+        raise
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    username: str = payload.get("sub")
+    if username is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    return username
         
