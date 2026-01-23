@@ -37,3 +37,15 @@ class UserResponse(BaseModel):
     email: EmailStr
     full_name: Optional[str] = None 
     disabled: bool = False
+
+
+class LoginRequest(BaseModel):
+    """Запрос на вход в систему."""
+    username: str
+    password: str
+
+class TokenResponse(BaseModel):
+    """Ответ с токеном."""
+    access_token: str
+    token_type: str
+    expires_in: int  # в секундах
