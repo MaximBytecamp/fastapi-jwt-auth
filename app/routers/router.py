@@ -84,7 +84,6 @@ async def get_current_user(username: str = Depends(get_current_user_username)):
     user = user_service.get_user_by_username(username)
     
     if not user:
-        # Возвращаем 404 если пользователь не найден
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"
